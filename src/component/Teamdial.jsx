@@ -12,19 +12,20 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
- 
+import {useSelector} from 'react-redux';
 
-export function TeamDial({ selectedUsers }) {
+export function TeamDial() {
   const [teamName, setTeamName] = useState('');
   const navigate = useNavigate();
+  const {members}=useSelector(state=>state.selectedUser);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Creating team", teamName, selectedUsers);
+    console.log("Creating team", teamName);
     try {
       const res = await axios.post("http://localhost:4000/team", {
         TeamName: teamName,
-        selectedUsers
+        selectedUsers:members
       });
       console.log("Response team", res.data.team._id);
       const id = res.data.team._id;

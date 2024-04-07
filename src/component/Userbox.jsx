@@ -2,12 +2,17 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { handleDelete, handleSave} from '@/utils/FetchUser';
+import {useDispatch,useSelector} from 'react-redux';
+import { addUser } from '@/slices/MemberSlice';
 
-export function Userbox({ user,users,currentPage, setUsers, filters, searchQuery, setSelectedUsers,selectedUsers }) {
+export function Userbox({user}) {
+  const dispatch=useDispatch();
   const { first_name, last_name, email, gender, domain, available, avatar, _id } = user;
   const [editing, setEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({ first_name, last_name, email, domain, available, gender });
-
+  const {users} = useSelector(state=>state.user);
+  const {members}=useSelector(state=>state.selectedUser);
+  
   const userInfoFields = [
     { label: 'First Name', value: first_name, name: 'first_name' },
     { label: 'Last Name', value: last_name, name: 'last_name' },
@@ -36,25 +41,22 @@ export function Userbox({ user,users,currentPage, setUsers, filters, searchQuery
   };
 
   const handleDeleteUser = () => {
-    handleDelete(_id, searchQuery, currentPage, filters, setUsers);
+    handleDelete(_id);
   };
 
   const handleSaveUser = () => {
-    handleSave(_id, editedUser, searchQuery, filters, currentPage, setUsers, setEditing);
-    setEditing(false);
+    handleSave(_id,editedUser,setEditing);
   };
 
   const handleAdd = () => {
-    console.log("selected users",selectedUsers,_id)
-    // Check if the user's domain and availability are unique
-    const isUniqueDomain = selectedUsers.some(userId => users.find(u => u._id === userId)?.domain === domain);
-    const isUniqueAvailability = selectedUsers.some(userId => users.find(u => u._id === userId)?.available === available);
- 
+    //console.log("selected users",selectedUsers,_id)
+    const isUniqueDomain = members.some(userId => users.find(u => u._id === userId)?.domain === domain);
+    const isUniqueAvailability = members.some(userId => users.find(u => u._id === userId)?.available === available);
     if (!isUniqueDomain && !isUniqueAvailability){
-      setSelectedUsers([...selectedUsers, _id]);
+       dispatch(addUser(_id));
     } 
     else {
-      console.log("User's domain or availability is not unique",selectedUsers);
+      console.log("User's domain or availability is not unique",members);
     }
   };
 

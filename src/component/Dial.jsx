@@ -5,7 +5,9 @@ import axios from "axios";
 import { FetchData } from '@/utils/FetchUser';
 import { Box } from './Field';
 
-export function DialogDemo({ setUsers,currentPage }) {
+
+export function DialogDemo() {
+ 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -14,6 +16,7 @@ export function DialogDemo({ setUsers,currentPage }) {
   const [domain, setDomain] = useState('');
   const [availability, setAvailability] = useState('');
   
+
 
   const fields = [
     { id: "firstName", label: "First Name", value: firstName },
@@ -66,13 +69,14 @@ export function DialogDemo({ setUsers,currentPage }) {
           domain,
           gender
         });
-        FetchData(currentPage,setUsers);
+        FetchData();
         console.log(response.data); 
       } catch (error) {
         console.error("Error:", error); 
       }
     }
 
+    
   return (
     <Dialog>
       <DialogTrigger asChild>

@@ -1,19 +1,20 @@
 import { Input } from "@/components/ui/input";
+import { setsearch } from "@/slices/SearchSlice";
 import { setavailable, setdomain, setgender } from "@/slices/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 
-export function Filter({ searchQuery, setSearchQuery, domain }) {
+export function Filter({domain}) {
   const dispatch = useDispatch();
   const filters = useSelector(state => state.filter); 
-
+  const {search} = useSelector(state => state.search);
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    dispatch(setsearch(e.target.value));
   };
 
   return (
     <div className='flex-col lg:flex-row flex mt-12 mb-12 gap-4'>
-      <Input placeholder="Search by name" value={searchQuery} onChange={handleSearchChange} />
+      <Input placeholder="Search by name" value={search} onChange={handleSearchChange} />
       <select value={filters.gender || ''} onChange={(e) => dispatch(setgender(e.target.value))}>
         <option value="">All Genders</option>
         <option value="Male">Male</option>

@@ -4,12 +4,9 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import rootReducer from "./reducer";
-import {configureStore} from "@reduxjs/toolkit"
+import store from './store.js'
 
- const store = configureStore({
-     reducer:rootReducer,
-  });
+ 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
