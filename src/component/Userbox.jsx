@@ -4,9 +4,12 @@ import { Button } from '@/components/ui/button';
 import { handleDelete, handleSave} from '@/utils/FetchUser';
 import {useDispatch,useSelector} from 'react-redux';
 import { addUser } from '@/slices/MemberSlice';
+import { toast } from "react-hot-toast"
+import { useLocation } from 'react-router-dom';
 
 export function Userbox({user}) {
   const dispatch=useDispatch();
+  const location = useLocation();
   const { first_name, last_name, email, gender, domain, available, avatar, _id } = user;
   const [editing, setEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({ first_name, last_name, email, domain, available, gender });
@@ -54,9 +57,11 @@ export function Userbox({user}) {
     const isUniqueAvailability = members.some(userId => users.find(u => u._id === userId)?.available === available);
     if (!isUniqueDomain && !isUniqueAvailability){
        dispatch(addUser(_id));
+       toast.success("User added successfully")
     } 
     else {
-      console.log("User's domain or availability is not unique",members);
+      toast.error("User's domain or availability is not unique");
+      console.log("User's domain or availability is not unique",members)
     }
   };
 
@@ -87,9 +92,9 @@ export function Userbox({user}) {
             </>
           )}
         </div>
-        <div className="mt-4">
+        {!location.pathname.includes('team')  && <div className="mt-4">
           <Button className="w-full" onClick={handleAdd}>Add to Team</Button>
-        </div>
+        </div> }
       </div>
     </div>
   );

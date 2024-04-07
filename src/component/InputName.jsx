@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import {useNavigate} from 'react-router-dom'
+import { toast } from "react-hot-toast"
 export default function InputName(){
     const [name,setName]=useState('');
     const [teams,setTeams]=useState([]);
@@ -14,12 +15,13 @@ useEffect(()=>{
 
 const fetchallteam=async ()=>{
      try {
-        const response = await axios.get('http://localhost:4000/allteam');
+        const response = await axios.get(BASE_URL+'/allteam');
         console.log('API Response:', response.data);
         setTeams(response.data);
        } 
     catch (error) {
-        console.error('Error:', error);
+        toast.error("Error in fetching teams");
+        console.error('error',error);
     }
 };
 
@@ -33,7 +35,7 @@ const handle=(e)=>{
     if(matchedTeam) {
         navigate(`/team/${matchedTeam._id}`);
     } else {
-        console.log('Team not found');
+        toast.error('Team not found');
     }
 }
 
@@ -41,10 +43,10 @@ const handle=(e)=>{
     setName(e.target.value);
   }
     return(
-        <div className="w-128 mt-12">
-        <h2 className="mt-4 mb-4 text-xl font-semibold">Enter Team Name to Get Team details</h2>
-        <div className="flex justify-center items-center gap-2">
-        <Input className='w-full' placeholder="Enter Team Name" value={name} onChange={handlechange}/>
+        <div className=" w-full  mt-12">
+        <h2 className="w-[90%] text-center mt-4 mb-8 text-xl font-semibold">Enter Team Name to Get Team details</h2>
+        <div className="w-[90%] flex flex-wrap justify-center items-center gap-2">
+        <Input className='w-64' placeholder="Enter Team Name" value={name} onChange={handlechange}/>
         <Button onClick={handle}>Enter</Button>
         </div>
         </div>

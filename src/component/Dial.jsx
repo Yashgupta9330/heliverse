@@ -4,7 +4,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import axios from "axios";
 import { FetchData } from '@/utils/FetchUser';
 import { Box } from './Field';
-
+import { toast } from "react-hot-toast"
+import { BASE_URL } from '@/Api';
 
 export function DialogDemo() {
  
@@ -59,22 +60,39 @@ export function DialogDemo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      try {
-        const response = await axios.post("http://localhost:4000/add", {
-          firstName,
-          lastName,
-          email,
-          avatar,
-          availability,
-          domain,
-          gender
+    try {
+        const response = await axios.post(BASE_URL+"/add", {
+            firstName,
+            lastName,
+            email,
+            avatar,
+            availability,
+            domain,
+            gender
         });
+        // Reset state variables to null
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setAvatar('');
+        setAvailability('');
+        setDomain('');
+        setGender('');
+
+        // Fetch data
         FetchData();
-        console.log(response.data); 
-      } catch (error) {
-        console.error("Error:", error); 
-      }
+
+        // Show success message
+        toast.success("User Added Successfully");
+
+        console.log(response.data);
+    } catch (error) {
+        // Show error message
+        toast.error("Can't able to add user");
+        console.error("Error:", error);
     }
+}
+
 
     
   return (

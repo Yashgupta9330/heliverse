@@ -13,7 +13,7 @@ export function TeamDetail() {
 
     const fetchTeamDetails = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/team/${id}`);
+            const response = await fetch(BASE_URL+`/team/${id}`);
             const data = await response.json();
 
             if (response.ok) {
