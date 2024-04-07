@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import { toast } from "react-hot-toast"
+import { BASE_URL } from "@/Api";
 export default function InputName(){
     const [name,setName]=useState('');
     const [teams,setTeams]=useState([]);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Userbox from "./Userbox";
+import { BASE_URL } from "@/Api";
 
 export function TeamDetail() {
     const { id } = useParams(); 
